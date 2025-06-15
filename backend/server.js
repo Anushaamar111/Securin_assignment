@@ -38,6 +38,10 @@ mongoose.connect(process.env.MONGO_URI, {
     console.error('MongoDB connection error:', error);
 });
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 app.get('/cves/fetch', async (req, res) => {
   try {
     const startIndex = parseInt(req.query.startIndex) || 0;
