@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/fd76490e-c13c-4779-969e-28ffee348896)# 🛡️ NVD CVE Dashboard - Securin Assignment
+🛡️ NVD CVE Dashboard - Securin Assignment
 
 This full-stack application fetches, stores, filters, and displays CVE (Common Vulnerabilities and Exposures) data from the NVD API. It fulfills all requirements of the provided Securin assignment PDF, including data sync, filtering APIs, a React dashboard, and test cases.
 
