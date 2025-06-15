@@ -1,109 +1,111 @@
-import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 
-function CveDetail() {
-  const { id } = useParams();
+function CVEDetail() {
+  const { cveId } = useParams();
+  const navigate = useNavigate();
   const [cve, setCve] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
+  const BASE = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/cves/by-id/${id}`)
-      .then(res => res.json())
-      .then(data => setCve(data))
-      .catch(err => console.error('Error fetching CVE:', err));
-  }, [id]);
+    setLoading(true);
+    setNotFound(false);
+    fetch(`${BASE}/cves/by-id/${cveId}`)
+      .then(res => {
+        if (!res.ok) {
+          setNotFound(true);
+          setCve(null);
+          setLoading(false);
+          return null;
+        }
+        return res.json();
+      })
+      .then(data => {
+        if (data) {
+          setCve(data);
+          setNotFound(false);
+        }
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Error fetching CVE:', err);
+        setNotFound(true);
+        setLoading(false);
+      });
+  }, [cveId, BASE]);
 
-  if (!cve) return <p className="p-4">Loading...</p>;
+  if (loading) {
+    return (
+      <div className="p-6">
+        <button className="mb-4 px-3 py-1 border rounded" onClick={() => navigate(-1)}>
+          &larr; Back
+        </button>
+        <p className="italic text-blue-600">Loading...</p>
+      </div>
+    );
+  }
 
-  const cvss = cve.metrics?.cvssMetricV2?.[0]?.cvssData;
-  const score = cve.metrics?.cvssMetricV2?.[0];
-
-
+  if (notFound || !cve) {
+    return (
+      <div className="p-6">
+        <button className="mb-4 px-3 py-1 border rounded" onClick={() => navigate(-1)}>
+          &larr; Back
+        </button>
+        <p className="text-red-600">CVE not found.</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="p-6 space-y-6">
-      <h1 className="text-3xl font-bold text-gray-900">{cve.cveId}</h1>
-
+    <div className="p-6 space-y-4">
+      <button className="mb-4 px-3 py-1 border rounded" onClick={() => navigate(-1)}>
+        &larr; Back
+      </button>
+      <h2 className="text-xl font-bold mb-2">{cve.cveId}</h2>
       <div>
-        <h2 className="text-lg font-semibold text-gray-800 mb-1">Description:</h2>
-        <p className="text-sm text-gray-700">
-          {cve.descriptions?.find(d => d.lang === 'en')?.value || 'No description available.'}
-        </p>
+        <strong>Published:</strong>{' '}
+        {cve.published ? new Date(cve.published).toLocaleDateString() : 'N/A'}
       </div>
-
       <div>
-        <h2 className="text-lg font-semibold mb-2 text-gray-800">CVSS V2 Metrics:</h2>
-        {cvss ? (
-          <>
-            <div className="flex flex-wrap gap-4 text-sm mb-2">
-              <p><strong>Severity:</strong> {score?.baseSeverity}</p>
-              <p><strong>Score:</strong> <span className="text-red-600 font-bold">{cvss.baseScore}</span></p>
-            </div>
-            <p className="text-sm mb-2"><strong>Vector String:</strong> {cvss.vectorString}</p>
-
-            <table className="w-full table-fixed border border-gray-300 text-sm">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="border p-2">Access Vector</th>
-                  <th className="border p-2">Access Complexity</th>
-                  <th className="border p-2">Authentication</th>
-                  <th className="border p-2">Confidentiality Impact</th>
-                  <th className="border p-2">Integrity Impact</th>
-                  <th className="border p-2">Availability Impact</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="border p-2">{cvss.accessVector}</td>
-                  <td className="border p-2">{cvss.accessComplexity}</td>
-                  <td className="border p-2">{cvss.authentication}</td>
-                  <td className="border p-2">{cvss.confidentialityImpact}</td>
-                  <td className="border p-2">{cvss.integrityImpact}</td>
-                  <td className="border p-2">{cvss.availabilityImpact}</td>
-                </tr>
-              </tbody>
-            </table>
-          </>
-        ) : (
-          <p className="italic text-sm text-gray-500">No CVSS V2 data available.</p>
-        )}
+        <strong>Last Modified:</strong>{' '}
+        {cve.lastModified ? new Date(cve.lastModified).toLocaleDateString() : 'N/A'}
       </div>
-
       <div>
-        <h2 className="text-lg font-semibold text-gray-800 mb-2">Scores:</h2>
-        <div className="text-sm text-gray-700">
-          <p><strong>Exploitability Score:</strong> {score?.exploitabilityScore ?? 'N/A'}</p>
-          <p><strong>Impact Score:</strong> {score?.impactScore ?? 'N/A'}</p>
+        <strong>Description:</strong>{' '}
+        {cve.descriptions && cve.descriptions.length > 0
+          ? cve.descriptions[0].value
+          : 'N/A'}
+      </div>
+      <div>
+        <strong>CVSS v3 Score:</strong>{' '}
+        {cve.metrics && cve.metrics.cvssMetricV3 && cve.metrics.cvssMetricV3.cvssData
+          ? cve.metrics.cvssMetricV3.cvssData.baseScore
+          : 'N/A'}
+      </div>
+      <div>
+        <strong>CVSS v2 Score:</strong>{' '}
+        {cve.metrics && cve.metrics.cvssMetricV2 && cve.metrics.cvssMetricV2.cvssData
+          ? cve.metrics.cvssMetricV2.cvssData.baseScore
+          : 'N/A'}
+      </div>
+      {cve.references && cve.references.length > 0 && (
+        <div>
+          <strong>References:</strong>
+          <ul className="list-disc ml-6">
+            {cve.references.map((ref, idx) => (
+              <li key={idx}>
+                <a href={ref.url} target="_blank" rel="noopener noreferrer" className="text-blue-700 underline">
+                  {ref.url}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
-      </div>
-
-      <div>
-        <h2 className="text-lg font-semibold text-gray-800 mb-2">CPE:</h2>
-        <table className="w-full table-auto border border-gray-300 text-sm">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="border p-2">Criteria</th>
-              <th className="border p-2">Match Criteria ID</th>
-              <th className="border p-2">Vulnerable</th>
-            </tr>
-          </thead>
-          <tbody>
-  {(cve.configurations || []).flatMap((config, i) =>
-    (config.nodes || []).flatMap((node, j) =>
-      (node.cpeMatch || []).map((cpe, k) => (
-        <tr key={`${i}-${j}-${k}`}>
-          <td className="border p-2">{cpe.criteria || 'N/A'}</td>
-          <td className="border p-2">{cpe.matchCriteriaId || 'N/A'}</td>
-          <td className="border p-2">{cpe.vulnerable ? 'Yes' : 'No'}</td>
-        </tr>
-      ))
-    )
-  )}
-</tbody>
-
-        </table>
-      </div>
+      )}
     </div>
   );
 }
 
-export default CveDetail;
+export default CVEDetail;

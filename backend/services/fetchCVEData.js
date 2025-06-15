@@ -22,16 +22,16 @@ async function fetchAndSaveCves(startIndex = 0, resultsPerPage = 100, lastModSta
       const cve = vuln.cve;
 
       const cveData = {
-        cveId: cve.id,
-        descriptions: cve.descriptions,
-        metrics: cve.metrics,
-        published: cve.published,
-        lastModified: cve.lastModified,
-        references: cve.references,
-        sourceIdentifier: cve.sourceIdentifier,
-        vulnStatus: cve.vulnStatus,
-        configurations: cve.configurations || [] 
-      };
+  cveId: cve.id,
+  descriptions: cve.descriptions,
+  metrics: cve.metrics,
+  published: new Date(cve.published),        
+  lastModified: new Date(cve.lastModified),  
+  references: cve.references,
+  sourceIdentifier: cve.sourceIdentifier,
+  vulnStatus: cve.vulnStatus,
+  configurations: cve.configurations || []
+};
 
       await Cve.updateOne(
         { cveId: cve.id },
