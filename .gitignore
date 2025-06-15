@@ -1,0 +1,59 @@
+# === Node.js ===
+node_modules/
+.env
+.env.*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# === Vite / React ===
+dist/
+build/
+.vite/
+*.local
+*.cache
+
+# === Logs ===
+logs
+*.log
+*.log.*
+debug.log
+error.log
+
+# === OS ===
+.DS_Store
+Thumbs.db
+
+# === Test Coverage ===
+coverage/
+*.lcov
+
+# === Editor / IDEs ===
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# === MongoDB dump / data ===
+dump/
+data/
+*.mongodb
+
+# === Optional (if you generate compiled files) ===
+*.out
+*.compiled.js
+
+# === System Files ===
+*.bak
+*.tmp
+*.temp
+
+# === Git ===
+*.orig
+
+# === Build Artifacts ===
+client/build/
+client/dist/
+backend/build/
+backend/dist/
