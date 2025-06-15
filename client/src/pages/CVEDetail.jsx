@@ -6,7 +6,7 @@ function CveDetail() {
   const [cve, setCve] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/cves/by-id/${id}`)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/cves/by-id/${id}`)
       .then(res => res.json())
       .then(data => setCve(data))
       .catch(err => console.error('Error fetching CVE:', err));
