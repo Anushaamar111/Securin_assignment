@@ -97,7 +97,6 @@ const fetchData = async (url) => {
           <option value={100}>100</option>
         </select>
 
-        <button onClick={() => { setSortField('published'); setPage(1); }} className="px-3 py-1 border rounded">Sort by Published</button>
         <button onClick={() => { setSortField('lastModified'); setPage(1); }} className="px-3 py-1 border rounded">Sort by Last Modified</button>
         <button onClick={() => { setSortOrder(prev => prev === 'desc' ? 'asc' : 'desc'); setPage(1); }} className="px-3 py-1 border rounded">
           Order: {sortOrder.toUpperCase()}
