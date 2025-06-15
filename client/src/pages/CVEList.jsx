@@ -11,7 +11,7 @@ function CveList() {
   const navigate = useNavigate();
 
 useEffect(() => {
-  fetch(`http://localhost:8000/cves/paginated?page=${page}&limit=${limit}&sortField=${sortField}&sortOrder=${sortOrder}`)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/cves/paginated?page=${page}&limit=${limit}&sortField=${sortField}&sortOrder=${sortOrder}`)
     .then(res => res.json())
     .then(data => {
       setCves(data.data);
