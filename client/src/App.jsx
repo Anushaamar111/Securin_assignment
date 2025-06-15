@@ -8,6 +8,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/cves/list" />} />
+      <Route path="/index.html" element={<Navigate to="/" replace />} />
       <Route path="/cves/list" element={<CveList />} />
       <Route path="/cves/:id" element={<CveDetail />} />
     </Routes>
