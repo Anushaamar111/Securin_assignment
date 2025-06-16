@@ -31,11 +31,11 @@ This full-stack application fetches, stores, filters, and displays CVE (Common V
 | Sync      | Axios + node-cron      |
 | Testing   | Jest + Supertest       |
 
-![WhatsApp Image 2025-06-15 at 14 33 41_717bd8f4](https://github.com/user-attachments/assets/803b4f55-48c1-4762-815e-fcca52175929)
-![WhatsApp Image 2025-06-15 at 14 33 42_67a5af6b](https://github.com/user-attachments/assets/6a1c4b3e-5824-4364-a7c8-eb35a4e1ac38)
-![WhatsApp Image 2025-06-15 at 14 33 42_59b101aa](https://github.com/user-attachments/assets/0ff46804-75a0-465f-9c42-408ec1624666)
-![WhatsApp Image 2025-06-15 at 14 33 42_c78d5f74](https://github.com/user-attachments/assets/e6faae86-65ab-4553-babd-2aef694ef166)
-![WhatsApp Image 2025-06-15 at 14 33 42_d023a3d1](https://github.com/user-attachments/assets/3ee01e0a-b5cc-45e4-83b5-0438352c8d4a)
+![image](https://github.com/user-attachments/assets/a170c7f0-45ff-4f78-acc9-8495d6ad9990)
+![image](https://github.com/user-attachments/assets/ad261317-cc07-4695-8107-71df04399072)
+![image](https://github.com/user-attachments/assets/336216bf-4446-4c00-a621-b9f1587d8c81)
+
+
 
 
 
