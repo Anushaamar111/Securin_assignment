@@ -20,7 +20,6 @@ function CveList() {
   const BASE = import.meta.env.VITE_BACKEND_URL;
 
   // Helper to fetch and set data
-  // ...existing code...
 const fetchData = async (url) => {
   setLoading(true);
   try {
